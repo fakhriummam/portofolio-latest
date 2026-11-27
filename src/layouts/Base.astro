@@ -4,6 +4,9 @@ import { profile } from '../data/profile';
 
 const title = `${profile.name} · ${profile.role}`;
 const description = profile.intro;
+const pageUrl = new URL(Astro.url.pathname, Astro.site);
+// Photo shown when the link is shared on WhatsApp / LinkedIn.
+const shareImage = profile.photo ? new URL(profile.photo, Astro.site).href : undefined;
 ---
 
 <!doctype html>
@@ -20,7 +23,10 @@ const description = profile.intro;
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:url" content={pageUrl.href} />
+    {shareImage && <meta property="og:image" content={shareImage} />}
     <meta name="twitter:card" content="summary" />
+    <link rel="canonical" href={pageUrl.href} />
 
     <script is:inline>
       document.documentElement.classList.remove('no-js');

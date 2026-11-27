@@ -6,8 +6,8 @@ import keystatic from '@keystatic/astro';
 import vercel from '@astrojs/vercel';
 
 export default defineConfig({
-  // Change this to your real domain after deploying (used for SEO meta).
-  site: 'https://example.com',
+  // Live address (used for SEO meta and link previews). Change it if you add a custom domain.
+  site: 'https://fakhriummam.vercel.app',
 
   // The portfolio pages stay static (fast, cached). Only the admin panel at
   // /keystatic and its API run on demand, which is why the Vercel adapter is here.
