@@ -1,0 +1,15 @@
+{
+  "title": "Desk relocation & cable management",
+  "order": 3,
+  "context": "Institut Asia Malang",
+  "problem": "When lecturers move desks or rooms, their PCs lose network access and cables end up loose and messy.",
+  "action": "Measure, crimp and terminate new RJ45 cables, route them along desks and walls, and test every connection.",
+  "result": "Lecturers are back online the same day with clean and safe cabling.",
+  "tags": [
+    "Crimping",
+    "UTP / RJ45",
+    "Cable management"
+  ],
+  "link": null,
+  "images": []
+}

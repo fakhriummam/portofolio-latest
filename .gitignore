@@ -2,6 +2,13 @@ node_modules/
 dist/
 .astro/
 
-# Unredacted originals (contain names, NIS, remote-access address). Never publish.
-design/photos/pondok/
+# Raw/original photos stay on this laptop only. The web-ready versions live in /public.
+# (design/photos/pondok/ holds unredacted originals with names, NIS and a remote-access address.)
 design/photos/
+
+# Vercel build output
+.vercel/
+
+# Secrets (Keystatic GitHub App keys)
+.env
+.env.*

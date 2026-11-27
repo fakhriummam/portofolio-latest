@@ -1,0 +1,30 @@
+{
+  "title": "Pesantren website with automated hotspot billing",
+  "order": 1,
+  "context": "ppsabilulhuda.web.id · Pondok Pesantren Sabilul Huda",
+  "problem": "Santri paid their Wi-Fi fees manually, and every new account or late payment meant logging into Winbox to create or disable hotspot users by hand.",
+  "action": "Built a Laravel website with a santri portal for payments and integrated it with the pondok’s MikroTik, so hotspot accounts are created and disabled straight from the web. Developed with Claude as an AI coding assistant, then deployed it myself with Docker on a Linux server.",
+  "result": "All 19 santri hotspot accounts are managed from one dashboard: late payers are cut off from the website, with no need to open Winbox.",
+  "tags": [
+    "Laravel",
+    "SQLite",
+    "MikroTik API",
+    "Docker",
+    "AI-assisted (Claude)"
+  ],
+  "link": "https://ppsabilulhuda.web.id",
+  "images": [
+    {
+      "image": "/images/projects/pondok-beranda.webp",
+      "caption": "Public homepage"
+    },
+    {
+      "image": "/images/projects/pondok-login-portal.webp",
+      "caption": "Santri portal login"
+    },
+    {
+      "image": "/images/projects/pondok-panel-hotspot.webp",
+      "caption": "Admin panel: hotspot accounts synced with MikroTik"
+    }
+  ]
+}

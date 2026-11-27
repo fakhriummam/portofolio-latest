@@ -96,74 +96,34 @@ export const experience = [
   },
 ];
 
-export const caseStudies = [
-  {
-    title: 'Pesantren website with automated hotspot billing',
-    context: 'ppsabilulhuda.web.id · Pondok Pesantren Sabilul Huda',
-    problem:
-      'Santri paid their Wi-Fi fees manually, and every new account or late payment meant logging into Winbox to create or disable hotspot users by hand.',
-    action:
-      'Built a Laravel website with a santri portal for payments and integrated it with the pondok’s MikroTik, so hotspot accounts are created and disabled straight from the web. Developed with Claude as an AI coding assistant, then deployed it myself with Docker on a Linux server.',
-    result:
-      'All 19 santri hotspot accounts are managed from one dashboard: late payers are cut off from the website, with no need to open Winbox.',
-    tags: ['Laravel', 'SQLite', 'MikroTik API', 'Docker', 'AI-assisted (Claude)'],
-    // Optional: live link and screenshots (put images in /public/images/projects/).
-    link: 'https://ppsabilulhuda.web.id',
-    images: [
-      { src: '/images/projects/pondok-beranda.webp', caption: 'Public homepage' },
-      { src: '/images/projects/pondok-login-portal.webp', caption: 'Santri portal login' },
-      { src: '/images/projects/pondok-panel-hotspot.webp', caption: 'Admin panel: hotspot accounts synced with MikroTik' },
-    ],
-  },
-  {
-    title: 'Running a pondok pesantren network',
-    context: 'Pondok Pesantren Sabilul Huda',
-    problem:
-      'Forty students and staff share one internet connection across several buildings, and the network needs to stay up with no dedicated IT team.',
-    action:
-      'Configured the whole MikroTik setup myself: RB450G as the core and RB941 as secondary, four access points, VLAN segmentation, a santri hotspot, and an OpenVPN tunnel so the router can be managed remotely. Day to day I manage users, monitor traffic and handle outages.',
-    result:
-      'A segmented, stable network that the pesantren relies on daily, which I can manage even when I am not on site.',
-    tags: ['MikroTik RouterOS 7', 'VLAN', 'Hotspot', 'OpenVPN', 'Wireless AP'],
-    images: [
-      { src: '/images/projects/pondok-winbox-interfaces.webp', caption: 'Live interface traffic on the pesantren’s RB450G in Winbox' },
-    ],
-  },
-  {
-    title: 'Desk relocation & cable management',
-    context: 'Institut Asia Malang',
-    problem:
-      'When lecturers move desks or rooms, their PCs lose network access and cables end up loose and messy.',
-    action:
-      'Measure, crimp and terminate new RJ45 cables, route them along desks and walls, and test every connection.',
-    result:
-      'Lecturers are back online the same day with clean and safe cabling.',
-    tags: ['Crimping', 'UTP / RJ45', 'Cable management'],
-  },
-  {
-    title: 'Restoring file & printer sharing',
-    context: 'Institut Asia Malang',
-    problem:
-      'Staff could not reach shared folders or print to the shared office printer.',
-    action:
-      'Traced the issue across network discovery, sharing permissions and printer drivers, then reconfigured the shares on the affected PCs.',
-    result: 'Shared folders and printing restored for the team without replacing hardware.',
-    tags: ['Windows', 'LAN', 'Printer sharing'],
-    images: [
-      { src: '/images/projects/kampus-printer-sharing.webp', caption: 'Re-enabling sharing for the office EPSON L220 printer in Windows' },
-    ],
-  },
-  {
-    title: 'Keeping the computer lab ready',
-    context: 'Institut Asia Malang',
-    problem:
-      'A lab used by many students every day needs working PCs and the right software before each class.',
-    action:
-      'Routine checks before classes, hardware checks and repairs such as inspecting graphics cards, and installing the applications each course needs.',
-    result: 'Classes start on time and students get help when they need it.',
-    tags: ['Hardware', 'Software install', 'Lab maintenance'],
-  },
-];
+/**
+ * Projects and gallery photos are edited in the admin panel (/keystatic)
+ * and stored as JSON files in /content. Do not edit them here.
+ */
+type ProjectFile = {
+  title: string;
+  order: number;
+  context: string;
+  problem: string;
+  action: string;
+  result: string;
+  tags: string[];
+  link?: string | null;
+  images?: { image: string; caption: string }[];
+};
+type GalleryFile = { caption: string; order: number; image: string };
+
+const byOrder = (x: { order: number }, y: { order: number }) => x.order - y.order;
+
+export const caseStudies = Object.values(
+  import.meta.glob<ProjectFile>('../../content/projects/*.json', { eager: true, import: 'default' }),
+)
+  .sort(byOrder)
+  .map((p) => ({
+    ...p,
+    link: p.link || '',
+    images: (p.images ?? []).map((i) => ({ src: i.image, caption: i.caption })),
+  }));
 
 export const skills = [
   {
@@ -242,17 +202,9 @@ export const education = [
   },
 ];
 
-/**
- * Gallery: put photos in /public/gallery/ and set `src` to e.g. '/gallery/rack.jpg'.
- * Items with an empty src show a placeholder tile.
- */
-export const gallery = [
-  { src: '/gallery/rak-server-kampus.webp', caption: 'Monitoring the campus server rack: MikroTik Cloud Core Router and core switch, Institut Asia' },
-  { src: '/gallery/cek-vga-pc-lab.webp', caption: 'Checking the graphics card of a computer lab PC, Institut Asia' },
-  { src: '/gallery/crimping-rj45.webp', caption: 'Crimping an RJ45 connector, with a LAN tester ready to check the cable' },
-  // Empty src = hidden until a photo is added (portrait 3:4 works best).
-  { src: '', caption: 'Network rack at the pesantren' },
-  { src: '', caption: 'Re-cabling a lecturer’s desk' },
-  { src: '', caption: 'MikroTik monitoring in Winbox' },
-  { src: '', caption: 'Access point installation' },
-];
+export const gallery = Object.values(
+  import.meta.glob<GalleryFile>('../../content/gallery/*.json', { eager: true, import: 'default' }),
+)
+  .sort(byOrder)
+  .map((g) => ({ src: g.image, caption: g.caption }));
+

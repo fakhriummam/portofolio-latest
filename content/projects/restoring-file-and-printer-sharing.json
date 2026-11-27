@@ -1,0 +1,20 @@
+{
+  "title": "Restoring file & printer sharing",
+  "order": 4,
+  "context": "Institut Asia Malang",
+  "problem": "Staff could not reach shared folders or print to the shared office printer.",
+  "action": "Traced the issue across network discovery, sharing permissions and printer drivers, then reconfigured the shares on the affected PCs.",
+  "result": "Shared folders and printing restored for the team without replacing hardware.",
+  "tags": [
+    "Windows",
+    "LAN",
+    "Printer sharing"
+  ],
+  "link": null,
+  "images": [
+    {
+      "image": "/images/projects/kampus-printer-sharing.webp",
+      "caption": "Re-enabling sharing for the office EPSON L220 printer in Windows"
+    }
+  ]
+}

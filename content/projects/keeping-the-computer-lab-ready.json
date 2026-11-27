@@ -1,0 +1,15 @@
+{
+  "title": "Keeping the computer lab ready",
+  "order": 5,
+  "context": "Institut Asia Malang",
+  "problem": "A lab used by many students every day needs working PCs and the right software before each class.",
+  "action": "Routine checks before classes, hardware checks and repairs such as inspecting graphics cards, and installing the applications each course needs.",
+  "result": "Classes start on time and students get help when they need it.",
+  "tags": [
+    "Hardware",
+    "Software install",
+    "Lab maintenance"
+  ],
+  "link": null,
+  "images": []
+}

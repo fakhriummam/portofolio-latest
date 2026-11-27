@@ -1,0 +1,22 @@
+{
+  "title": "Running a pondok pesantren network",
+  "order": 2,
+  "context": "Pondok Pesantren Sabilul Huda",
+  "problem": "Forty students and staff share one internet connection across several buildings, and the network needs to stay up with no dedicated IT team.",
+  "action": "Configured the whole MikroTik setup myself: RB450G as the core and RB941 as secondary, four access points, VLAN segmentation, a santri hotspot, and an OpenVPN tunnel so the router can be managed remotely. Day to day I manage users, monitor traffic and handle outages.",
+  "result": "A segmented, stable network that the pesantren relies on daily, which I can manage even when I am not on site.",
+  "tags": [
+    "MikroTik RouterOS 7",
+    "VLAN",
+    "Hotspot",
+    "OpenVPN",
+    "Wireless AP"
+  ],
+  "link": null,
+  "images": [
+    {
+      "image": "/images/projects/pondok-winbox-interfaces.webp",
+      "caption": "Live interface traffic on the pesantren’s RB450G in Winbox"
+    }
+  ]
+}

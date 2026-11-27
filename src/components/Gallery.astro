@@ -3,27 +3,28 @@ import SectionHeading from './SectionHeading.astro';
 import { gallery } from '../data/profile';
 
 // Only show photos that exist, so there are never "coming soon" or empty tiles.
-// Tiles are portrait (3:4) to suit phone photos. The gallery sits in the same
-// column as the section title, and the number of columns follows the photo
-// count so 1–4 photos fill their rows without gaps.
+// Tiles are portrait (3:4) to suit phone photos and use the full content width,
+// like the Selected work cards. The column count follows the number of photos
+// so rows stay full: 1–2 photos are centred, 3 → 3 columns, 4+ → 4 or 3 columns,
+// whichever divides the count evenly.
 const photos = gallery.filter((g) => g.src);
-const layout =
-  {
-    1: 'grid-cols-1 max-w-sm',
-    2: 'grid-cols-2',
-    3: 'grid-cols-2 md:grid-cols-3',
-    4: 'grid-cols-2 md:grid-cols-4',
-  }[photos.length] ?? 'grid-cols-2 md:grid-cols-3';
+const n = photos.length;
+
+let layout: string;
+if (n === 1) layout = 'mx-auto max-w-xs grid-cols-1';
+else if (n === 2) layout = 'mx-auto max-w-2xl grid-cols-2';
+else if (n === 3) layout = 'grid-cols-3';
+else if (n % 4 === 0 || n % 3 !== 0) layout = 'grid-cols-2 md:grid-cols-4';
+else layout = 'grid-cols-2 md:grid-cols-3';
 ---
 
 {
-  photos.length > 0 && (
+  n > 0 && (
     <section id="gallery" class="section">
       <div class="container-x">
         <SectionHeading index="06" label="Documentation" title="On the job." />
 
-        <div class="md:grid md:grid-cols-12">
-        <ul class:list={['grid gap-3 sm:gap-4 md:col-span-9 md:col-start-4', layout]}>
+        <ul class:list={['grid gap-3 sm:gap-5', layout]}>
           {photos.map((g) => (
             <li class="reveal">
               <figure class="group">
@@ -40,7 +41,6 @@ const layout =
             </li>
           ))}
         </ul>
-        </div>
       </div>
     </section>
   )
