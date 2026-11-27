@@ -1,0 +1,113 @@
+---
+import { profile } from '../data/profile';
+
+const { email, linkedin, github } = profile.contact;
+const action = profile.formspreeId
+  ? `https://formspree.io/f/${profile.formspreeId}`
+  : `mailto:${email}`;
+
+const channels = [
+  { label: 'Email', value: email, href: `mailto:${email}` },
+  { label: 'LinkedIn', value: linkedin ? linkedin.replace(/^https?:\/\/(www\.)?/, '') : 'Coming soon', href: linkedin },
+  { label: 'GitHub', value: github ? github.replace(/^https?:\/\/(www\.)?/, '') : 'Coming soon', href: github },
+  { label: 'Location', value: profile.location, href: '' },
+];
+---
+
+<section id="contact" class="section bg-paper-2/50">
+  <div class="container-x grid gap-16 md:grid-cols-12">
+    <div class="md:col-span-5">
+      <p class="reveal text-xs font-medium uppercase tracking-[0.18em] text-muted">
+        <span class="text-accent">08</span><span class="mx-2 text-line">—</span>Contact
+      </p>
+      <h2 class="reveal display mt-4 text-4xl leading-[1.05] sm:text-5xl">
+        Let’s work <em class="text-accent">together.</em>
+      </h2>
+      <p class="reveal mt-6 max-w-md leading-relaxed text-ink/80">
+        Looking for someone to look after your IT and network? I am happy to talk about internships, junior roles and part-time support work.
+      </p>
+
+      <dl class="reveal mt-10 divide-y divide-line border-y border-line">
+        {
+          channels.map((c) => (
+            <div class="flex items-baseline justify-between gap-6 py-4">
+              <dt class="text-sm text-muted">{c.label}</dt>
+              <dd class="truncate text-right">
+                {c.href ? (
+                  <a href={c.href} class="link-u" target={c.href.startsWith('http') ? '_blank' : undefined} rel="noopener">
+                    {c.value}
+                  </a>
+                ) : (
+                  <span class:list={[c.label !== 'Location' && 'text-muted']}>{c.value}</span>
+                )}
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+
+    <form
+      id="contact-form"
+      class="reveal space-y-6 md:col-span-6 md:col-start-7"
+      action={action}
+      method="POST"
+      data-formspree={profile.formspreeId ? 'true' : 'false'}
+      data-email={email}
+    >
+      <div class="grid gap-6 sm:grid-cols-2">
+        <label class="block">
+          <span class="text-sm text-muted">Name</span>
+          <input name="name" required autocomplete="name" class="mt-2 w-full border-0 border-b border-line bg-transparent px-0 py-2 outline-none transition-colors focus:border-accent" />
+        </label>
+        <label class="block">
+          <span class="text-sm text-muted">Email</span>
+          <input type="email" name="email" required autocomplete="email" class="mt-2 w-full border-0 border-b border-line bg-transparent px-0 py-2 outline-none transition-colors focus:border-accent" />
+        </label>
+      </div>
+      <label class="block">
+        <span class="text-sm text-muted">Company / organisation</span>
+        <input name="company" autocomplete="organization" class="mt-2 w-full border-0 border-b border-line bg-transparent px-0 py-2 outline-none transition-colors focus:border-accent" />
+      </label>
+      <label class="block">
+        <span class="text-sm text-muted">Message</span>
+        <textarea name="message" rows="5" required class="mt-2 w-full resize-y border-0 border-b border-line bg-transparent px-0 py-2 outline-none transition-colors focus:border-accent"></textarea>
+      </label>
+      <input type="text" name="_gotcha" class="hidden" tabindex="-1" autocomplete="off" />
+      <div class="flex flex-wrap items-center gap-4">
+        <button type="submit" class="btn-primary">Send message <span aria-hidden="true">→</span></button>
+        <p id="form-status" class="text-sm text-muted" role="status" aria-live="polite"></p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const status = document.getElementById('form-status')!;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+
+    // No Formspree ID yet: fall back to opening the visitor's email app.
+    if (form.dataset.formspree !== 'true') {
+      const subject = encodeURIComponent(`Portfolio enquiry from ${data.get('name')}`);
+      const body = encodeURIComponent(
+        `${data.get('message')}\n\n— ${data.get('name')} (${data.get('email')})${data.get('company') ? `, ${data.get('company')}` : ''}`,
+      );
+      window.location.href = `mailto:${form.dataset.email}?subject=${subject}&body=${body}`;
+      return;
+    }
+
+    status.textContent = 'Sending…';
+    try {
+      const res = await fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+      if (!res.ok) throw new Error();
+      form.reset();
+      status.textContent = 'Thank you, your message has been sent.';
+    } catch {
+      status.textContent = 'Something went wrong. Please email me directly.';
+    }
+  });
+</script>

@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.astro/
+
+# Unredacted originals (contain names, NIS, remote-access address). Never publish.
+design/photos/pondok/
+design/photos/

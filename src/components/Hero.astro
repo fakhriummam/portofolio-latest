@@ -1,0 +1,66 @@
+---
+import { profile } from '../data/profile';
+---
+
+<section id="top" class="container-x pb-20 pt-32 sm:pb-28 sm:pt-40">
+  <div class="grid items-end gap-12 md:grid-cols-12">
+    <div class="md:col-span-8">
+      <p class="reveal mb-8 inline-flex items-center gap-2 rounded-full border border-line px-3 py-1 text-xs text-muted">
+        <span class="relative flex h-2 w-2">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent/50 motion-reduce:animate-none"></span>
+          <span class="relative inline-flex h-2 w-2 rounded-full bg-accent"></span>
+        </span>
+        {profile.status}
+      </p>
+
+      <h1 class="reveal display text-[2.4rem] leading-[1.04] sm:text-6xl md:text-7xl">
+        {profile.name}
+      </h1>
+
+      <p class="reveal mt-6 text-lg text-muted sm:text-xl">
+        {profile.role} <span class="text-line">·</span>
+        {profile.location}
+      </p>
+
+      <p class="reveal display mt-10 max-w-xl text-2xl italic leading-snug text-accent sm:text-3xl">
+        “{profile.tagline}”
+      </p>
+
+      <p class="reveal mt-6 max-w-xl leading-relaxed text-ink/80">
+        {profile.intro}
+      </p>
+
+      <div class="reveal mt-10 flex flex-wrap gap-3">
+        <a href="#contact" class="btn-primary">Get in touch</a>
+        <a href="#work" class="btn-ghost">View my work</a>
+        {
+          profile.cv && (
+            <a href={profile.cv} class="btn-ghost" download>
+              Download CV
+            </a>
+          )
+        }
+      </div>
+    </div>
+
+    <div class="reveal md:col-span-4">
+      <div class="relative mx-auto aspect-[4/5] w-full max-w-[280px] overflow-hidden rounded-sm bg-paper-2 md:ml-auto">
+        {
+          profile.photo ? (
+            <img
+              src={profile.photo}
+              alt={`Portrait of ${profile.name}`}
+              class="h-full w-full object-cover grayscale-[15%]"
+              loading="eager"
+            />
+          ) : (
+            <div class="flex h-full w-full items-center justify-center">
+              <span class="display text-7xl text-accent/80">{profile.initials}</span>
+            </div>
+          )
+        }
+        <div class="pointer-events-none absolute inset-3 border border-ink/10"></div>
+      </div>
+    </div>
+  </div>
+</section>

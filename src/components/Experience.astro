@@ -1,0 +1,35 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { experience } from '../data/profile';
+---
+
+<section id="experience" class="section">
+  <div class="container-x">
+    <SectionHeading index="02" label="Experience" title="Where I have been trusted with the work." />
+
+    <ol class="divide-y divide-line border-y border-line">
+      {
+        experience.map((job) => (
+          <li class="reveal grid gap-4 py-10 md:grid-cols-12 md:gap-8">
+            <div class="md:col-span-3">
+              <p class="text-sm text-muted">{job.period}</p>
+            </div>
+            <div class="md:col-span-9">
+              <h3 class="display text-2xl sm:text-3xl">{job.role}</h3>
+              <p class="mt-1 text-accent">{job.org}</p>
+              <p class="mt-4 max-w-2xl leading-relaxed text-ink/80">{job.summary}</p>
+              <ul class="mt-5 max-w-2xl space-y-2.5">
+                {job.points.map((pt) => (
+                  <li class="relative pl-6 leading-relaxed text-ink/80">
+                    <span class="absolute left-0 top-[0.7em] h-px w-3 bg-accent" />
+                    {pt}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

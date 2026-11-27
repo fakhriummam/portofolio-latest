@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Muhammad Fakhri Umam - CV</title>
+<!--
+  ATS-friendly CV source. Export to PDF with:
+  chrome --headless --print-to-pdf=public/cv.pdf --no-pdf-header-footer design/cv/cv.html
+  Rules kept for ATS: single column, standard section headings, real text (no text in images),
+  standard font, no tables/columns/icons for content.
+-->
+<style>
+  @page { size: A4; margin: 11mm 15mm 9mm; }
+  * { box-sizing: border-box; }
+  body { font-family: Arial, Helvetica, sans-serif; font-size: 9.9pt; line-height: 1.32; color: #111; margin: 0; }
+  h2 { break-after: avoid; }
+  header { display: flex; justify-content: space-between; align-items: flex-start; gap: 18px; }
+  h1 { font-size: 21pt; margin: 0 0 2px; letter-spacing: .2px; }
+  .title { font-size: 11.5pt; margin: 0 0 6px; color: #1f5f5b; font-weight: bold; }
+  .contact { margin: 0; font-size: 9.6pt; }
+  .contact a { color: #111; text-decoration: none; }
+  header img { width: 27mm; height: 36mm; object-fit: cover; border: 1px solid #ccc; flex: none; }
+  h2 { font-size: 11pt; text-transform: uppercase; letter-spacing: .8px; margin: 10px 0 4px; padding-bottom: 2px; border-bottom: 1.2px solid #111; }
+  .item { margin-bottom: 7px; page-break-inside: avoid; }
+  .row { display: flex; justify-content: space-between; gap: 12px; }
+  .row b { font-size: 10.5pt; }
+  .sub { font-style: italic; }
+  ul { margin: 2px 0 0; padding-left: 16px; }
+  li { margin: 1px 0; }
+  p { margin: 0; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Muhammad Fakhri Umam</h1>
+    <p class="title">IT Support &amp; Network Technician</p>
+    <p class="contact">
+      Malang, East Java, Indonesia | fakhriummam@gmail.com<br>
+      linkedin.com/in/fakhriummam | github.com/fakhriummam
+    </p>
+  </div>
+  <img src="photo-cv.jpg" alt="Photo of Muhammad Fakhri Umam">
+</header>
+
+<h2>Summary</h2>
+<p>IT Support intern and lab assistant at Institut Asia Malang, and network operator (NOC) at Pondok Pesantren Sabilul Huda, where I configured a MikroTik network of 2 routers and 4 access points for 30–40 users, with VLANs, hotspot and OpenVPN remote access. Experienced in PC troubleshooting, LAN cabling, and file and printer sharing. Built and deployed a Laravel web application that automates MikroTik hotspot account management. Disciplined, trustworthy and calm under pressure.</p>
+
+<h2>Work Experience</h2>
+
+<div class="item">
+  <div class="row"><b>IT Support Intern &amp; Lab Assistant</b><span>Apr 2025 – Present</span></div>
+  <div class="row"><span class="sub">Institut Asia Malang</span><span>Malang</span></div>
+  <ul>
+    <li>Maintain all PCs in the computer lab and repair lecturer and staff PCs, from application errors to hardware faults.</li>
+    <li>Re-route and terminate network cabling (RJ45 crimping) when lecturers change desks or rooms, keeping cable management neat.</li>
+    <li>Restore file sharing and printer sharing on the office LAN.</li>
+    <li>Monitor the campus network via MikroTik and register classroom TVs and devices in IP Binding.</li>
+    <li>Support students with printing and installing lab applications.</li>
+  </ul>
+</div>
+
+<div class="item">
+  <div class="row"><b>Network Operator (NOC) &amp; Treasurer</b><span>2025 – Present</span></div>
+  <div class="row"><span class="sub">Pondok Pesantren Sabilul Huda</span><span>Malang</span></div>
+  <ul>
+    <li>Configured on my own a network of 2 MikroTik routers (RB450G, RB941) and 4 access points for 30–40 users.</li>
+    <li>Set up VLAN segmentation, a santri hotspot and an OpenVPN tunnel for remote management on RouterOS 7.</li>
+    <li>Manage user access, monitor connectivity and troubleshoot outages.</li>
+    <li>Serve as treasurer, trusted with the pesantren's money and financial records.</li>
+  </ul>
+</div>
+
+<div class="item">
+  <div class="row"><b>Construction Worker; Food Stall Assistant (part-time)</b><span>2023</span></div>
+  <ul>
+    <li>Worked about 3 months as a construction labourer on site in a team, and helped at a family food stall serving customers, after graduating from SMK.</li>
+  </ul>
+</div>
+
+<h2>Projects</h2>
+
+<div class="item">
+  <div class="row"><b>Pesantren Website with Automated Hotspot Billing</b><span>2026</span></div>
+  <div class="row"><span class="sub">ppsabilulhuda.web.id | Laravel, SQLite, MikroTik API, Docker</span></div>
+  <ul>
+    <li>Built a Laravel website with a santri portal for payments, developed with Claude as an AI coding assistant.</li>
+    <li>Integrated the website with the pesantren's MikroTik to create and disable hotspot accounts automatically, so late payers are cut off from the web without opening Winbox.</li>
+    <li>Deployed the application with Docker on a Linux server.</li>
+  </ul>
+</div>
+
+<h2>Education</h2>
+
+<div class="item">
+  <div class="row"><b>Institut Asia Malang</b><span>2024 – Present</span></div>
+  <p>Informatics Engineering (Teknik Informatika), 5th semester; passed selective Lab Assistant Training (2025).</p>
+</div>
+<div class="item">
+  <div class="row"><b>SMK Darul Ulum Jombang</b><span>Graduated 2023</span></div>
+  <p>Software Engineering (Rekayasa Perangkat Lunak)</p>
+</div>
+
+<h2>Skills</h2>
+<p><b>Network:</b> MikroTik RouterOS 7, Winbox, VLAN segmentation, hotspot setup and management, OpenVPN remote access, network monitoring, IP Binding, wireless access points, LAN troubleshooting</p>
+<p><b>Hardware &amp; Support:</b> PC hardware troubleshooting, Windows and application installation, RJ45 crimping, cable management, file and printer sharing</p>
+<p><b>Web &amp; Tools:</b> PHP, Laravel, HTML, CSS, JavaScript, SQLite, Docker, Git, VS Code, Claude Code</p>
+<p><b>Currently learning:</b> MikroTik certification (MTCNA) preparation; routing and firewall</p>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { about } from '../data/profile';
+---
+
+<section id="about" class="section">
+  <div class="container-x">
+    <SectionHeading index="01" label="About" title="Hands-on, dependable, and calm when things break." />
+    <div class="grid md:grid-cols-12">
+      <div class="space-y-6 text-lg leading-relaxed text-ink/85 md:col-span-8 md:col-start-4">
+        {
+          about.map((p, i) => (
+            <p class:list={['reveal', i === 0 && 'first-letter:font-serif first-letter:float-left first-letter:mr-3 first-letter:text-6xl first-letter:leading-[0.85] first-letter:text-accent']}>
+              {p}
+            </p>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

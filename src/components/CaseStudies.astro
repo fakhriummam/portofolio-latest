@@ -1,0 +1,113 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { caseStudies } from '../data/profile';
+---
+
+<section id="work" class="section bg-paper-2/50">
+  <div class="container-x">
+    <SectionHeading index="03" label="Selected work" title="Real problems, practical fixes." />
+
+    <!--
+      Layout: the first project is "featured" and spans the full width.
+      The rest sit in pairs. If the count would leave one card alone in the
+      last row (an orphan), that last card stretches to full width instead,
+      so there is never an empty cell, however many projects are added.
+    -->
+    <div class="grid gap-px overflow-hidden rounded-sm border border-line bg-line md:grid-cols-2 md:[&>article:last-child:nth-child(even)]:col-span-2">
+      {
+        caseStudies.map((c, i) => (
+          <article
+            class:list={[
+              'reveal flex flex-col bg-paper p-7 sm:p-10',
+              i === 0 && 'md:col-span-2 md:grid md:grid-cols-12 md:gap-x-12',
+            ]}
+          >
+            <div class:list={[i === 0 && 'md:col-span-5']}>
+              <div class="flex items-baseline justify-between gap-4">
+                <p class="text-xs uppercase tracking-[0.16em] text-muted">{c.context}</p>
+                <span class="display text-sm text-accent">{String(i + 1).padStart(2, '0')}</span>
+              </div>
+              <h3
+                class:list={[
+                  'display mt-4 leading-tight',
+                  i === 0 ? 'text-3xl sm:text-4xl' : 'text-2xl sm:text-[1.7rem]',
+                ]}
+              >
+                {c.title}
+              </h3>
+              {i === 0 && (
+                <ul class="mt-6 hidden flex-wrap gap-2 md:flex">
+                  {c.tags.map((t) => (
+                    <li class="tag text-xs">{t}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
+            <dl
+              class:list={[
+                'mt-6 space-y-4 text-[0.95rem] leading-relaxed',
+                i === 0 && 'md:col-span-7 md:mt-0',
+              ]}
+            >
+              <div>
+                <dt class="text-xs font-medium uppercase tracking-wider text-muted">Problem</dt>
+                <dd class="mt-1 text-ink/80">{c.problem}</dd>
+              </div>
+              <div>
+                <dt class="text-xs font-medium uppercase tracking-wider text-muted">What I did</dt>
+                <dd class="mt-1 text-ink/80">{c.action}</dd>
+              </div>
+              <div>
+                <dt class="text-xs font-medium uppercase tracking-wider text-accent">Result</dt>
+                <dd class="mt-1 text-ink">{c.result}</dd>
+              </div>
+            </dl>
+
+            {'link' in c && c.link && (
+              <p class:list={['mt-6', i === 0 && 'md:col-span-7 md:col-start-6']}>
+                <a href={c.link} target="_blank" rel="noopener" class="link-u text-sm text-accent">
+                  Visit {c.link.replace(/^https?:\/\//, '')} <span aria-hidden="true">↗</span>
+                </a>
+              </p>
+            )}
+
+            {'images' in c && c.images && c.images.length > 0 && (
+              <div
+                class:list={[
+                  'mt-8 grid gap-4',
+                  c.images.length === 2 && 'sm:grid-cols-2',
+                  c.images.length >= 3 && 'sm:grid-cols-3',
+                  i === 0 && 'md:col-span-12',
+                ]}
+              >
+                {c.images.map((img) => (
+                  <figure>
+                    <a href={img.src} target="_blank" rel="noopener" class="block overflow-hidden rounded-sm border border-line">
+                      <img
+                        src={img.src}
+                        alt={img.caption}
+                        loading="lazy"
+                        class:list={[
+                          'w-full object-cover object-top transition-transform duration-500 hover:scale-[1.03]',
+                          c.images.length > 1 && 'aspect-[12/5]',
+                        ]}
+                      />
+                    </a>
+                    <figcaption class="mt-2 text-xs text-muted">{img.caption}</figcaption>
+                  </figure>
+                ))}
+              </div>
+            )}
+
+            <ul class:list={['mt-auto flex flex-wrap gap-2 pt-8', i === 0 && 'md:hidden']}>
+              {c.tags.map((t) => (
+                <li class="tag text-xs">{t}</li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

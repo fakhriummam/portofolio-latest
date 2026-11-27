@@ -1,0 +1,88 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/fraunces';
+@import '@fontsource-variable/inter';
+
+@theme {
+  --color-paper: #faf8f4;
+  --color-paper-2: #f3efe7;
+  --color-ink: #1c1b19;
+  --color-muted: #6b675f;
+  --color-line: #e6e1d8;
+  --color-accent: #1f5f5b;
+  --color-accent-soft: #e3ece9;
+
+  --font-serif: 'Fraunces Variable', ui-serif, Georgia, serif;
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+    font-feature-settings: 'ss01', 'cv11';
+  }
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-paper);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+@utility container-x {
+  @apply mx-auto w-full max-w-[1100px] px-5 sm:px-8;
+}
+@utility section {
+  @apply border-t border-line py-20 sm:py-28;
+}
+@utility display {
+  @apply font-serif tracking-tight;
+  font-variation-settings: 'opsz' 144, 'SOFT' 50;
+}
+@utility link-u {
+  @apply underline decoration-line decoration-1 underline-offset-4 transition-colors hover:decoration-accent hover:text-accent;
+}
+@utility tag {
+  @apply inline-flex items-center rounded-full border border-line bg-paper px-3 py-1 text-sm text-ink/80;
+}
+@utility btn {
+  @apply inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-colors;
+}
+@utility btn-primary {
+  @apply btn bg-ink text-paper hover:bg-accent;
+}
+@utility btn-ghost {
+  @apply btn border border-line text-ink hover:border-ink;
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+.no-js .reveal {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

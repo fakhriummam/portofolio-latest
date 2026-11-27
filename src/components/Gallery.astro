@@ -1,0 +1,47 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { gallery } from '../data/profile';
+
+// Only show photos that exist, so there are never "coming soon" or empty tiles.
+// Tiles are portrait (3:4) to suit phone photos. The gallery sits in the same
+// column as the section title, and the number of columns follows the photo
+// count so 1–4 photos fill their rows without gaps.
+const photos = gallery.filter((g) => g.src);
+const layout =
+  {
+    1: 'grid-cols-1 max-w-sm',
+    2: 'grid-cols-2',
+    3: 'grid-cols-2 md:grid-cols-3',
+    4: 'grid-cols-2 md:grid-cols-4',
+  }[photos.length] ?? 'grid-cols-2 md:grid-cols-3';
+---
+
+{
+  photos.length > 0 && (
+    <section id="gallery" class="section">
+      <div class="container-x">
+        <SectionHeading index="06" label="Documentation" title="On the job." />
+
+        <div class="md:grid md:grid-cols-12">
+        <ul class:list={['grid gap-3 sm:gap-4 md:col-span-9 md:col-start-4', layout]}>
+          {photos.map((g) => (
+            <li class="reveal">
+              <figure class="group">
+                <a href={g.src} target="_blank" rel="noopener" class="block overflow-hidden rounded-sm bg-paper-2">
+                  <img
+                    src={g.src}
+                    alt={g.caption}
+                    loading="lazy"
+                    class="aspect-[3/4] w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                  />
+                </a>
+                <figcaption class="mt-2 text-sm leading-snug text-muted">{g.caption}</figcaption>
+              </figure>
+            </li>
+          ))}
+        </ul>
+        </div>
+      </div>
+    </section>
+  )
+}
