@@ -8,8 +8,9 @@ const action = profile.formspreeId
 
 const channels = [
   { label: 'Email', value: email, href: `mailto:${email}` },
-  { label: 'LinkedIn', value: linkedin ? linkedin.replace(/^https?:\/\/(www\.)?/, '') : 'Coming soon', href: linkedin },
-  { label: 'GitHub', value: github ? github.replace(/^https?:\/\/(www\.)?/, '') : 'Coming soon', href: github },
+  // Shown without "https://www." and without a trailing slash; the link itself stays the full URL.
+  { label: 'LinkedIn', value: linkedin ? linkedin.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '') : 'Coming soon', href: linkedin },
+  { label: 'GitHub', value: github ? github.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '') : 'Coming soon', href: github },
   { label: 'Location', value: profile.location, href: '' },
 ];
 ---
