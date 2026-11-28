@@ -1,6 +1,26 @@
 ---
 import SectionHeading from './SectionHeading.astro';
 import { caseStudies } from '../data/profile';
+import sharp from 'sharp';
+import path from 'node:path';
+
+// Read each screenshot/photo's real size at build time so the frame fits it:
+// phone photos (portrait) get 3:4 tiles, screenshots (landscape) get wide tiles.
+// This also works for images uploaded later through the admin panel.
+const isPortrait = async (src: string) => {
+  try {
+    const m = await sharp(path.join(process.cwd(), 'public', src)).metadata();
+    return (m.height ?? 0) > (m.width ?? 0);
+  } catch {
+    return false;
+  }
+};
+const projects = await Promise.all(
+  caseStudies.map(async (c) => {
+    const flags = await Promise.all(c.images.map((img) => isPortrait(img.src)));
+    return { ...c, portrait: flags.length > 0 && flags.every(Boolean) };
+  }),
+);
 ---
 
 <section id="work" class="section bg-paper-2/50">
@@ -15,7 +35,7 @@ import { caseStudies } from '../data/profile';
     -->
     <div class="grid gap-px overflow-hidden rounded-sm border border-line bg-line md:grid-cols-2 md:[&>article:last-child:nth-child(even)]:col-span-2">
       {
-        caseStudies.map((c, i) => (
+        projects.map((c, i) => (
           <article
             class:list={[
               'reveal flex flex-col bg-paper p-7 sm:p-10',
@@ -76,8 +96,13 @@ import { caseStudies } from '../data/profile';
               <div
                 class:list={[
                   'mt-8 grid gap-4',
-                  c.images.length === 2 && 'sm:grid-cols-2',
-                  c.images.length >= 3 && 'sm:grid-cols-3',
+                  c.portrait
+                    ? c.images.length === 2
+                      ? 'grid-cols-2 gap-3'
+                      : c.images.length >= 3
+                        ? 'grid-cols-3 gap-3'
+                        : 'max-w-xs'
+                    : [c.images.length === 2 && 'sm:grid-cols-2', c.images.length >= 3 && 'sm:grid-cols-3'],
                   i === 0 && 'md:col-span-12',
                 ]}
               >
@@ -90,7 +115,7 @@ import { caseStudies } from '../data/profile';
                         loading="lazy"
                         class:list={[
                           'w-full object-cover object-top transition-transform duration-500 hover:scale-[1.03]',
-                          c.images.length > 1 && 'aspect-[12/5]',
+                          c.portrait ? 'aspect-[3/4]' : c.images.length > 1 && 'aspect-[12/5]',
                         ]}
                       />
                     </a>

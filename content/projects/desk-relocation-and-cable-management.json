@@ -3,7 +3,7 @@
   "order": 3,
   "context": "Institut Asia Malang",
   "problem": "When lecturers move desks or rooms, their PCs lose network access and cables end up loose and messy.",
-  "action": "Measure, crimp and terminate new RJ45 cables, route them along desks and walls, and test every connection.",
+  "action": "Set up workstations from an empty desk, such as a four-PC dual-monitor station: measure, crimp and terminate new RJ45 cables, route them neatly along the desk and floor, and test every connection with a LAN tester.",
   "result": "Lecturers are back online the same day with clean and safe cabling.",
   "tags": [
     "Crimping",
@@ -11,5 +11,18 @@
     "Cable management"
   ],
   "link": null,
-  "images": []
+  "images": [
+    {
+      "image": "/images/projects/kampus-penataan-pc-sebelum.webp",
+      "caption": "Before: an empty desk"
+    },
+    {
+      "image": "/images/projects/kampus-penataan-pc-proses.webp",
+      "caption": "During: crimping the LAN cable on site"
+    },
+    {
+      "image": "/images/projects/kampus-penataan-pc-sesudah.webp",
+      "caption": "After: PCs connected, cable run through floor trunking"
+    }
+  ]
 }
