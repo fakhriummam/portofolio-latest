@@ -104,6 +104,7 @@ type ProjectFile = {
   title: string;
   order: number;
   context: string;
+  summary?: string;
   problem: string;
   action: string;
   result: string;
@@ -115,12 +116,15 @@ type GalleryFile = { caption: string; order: number; image: string };
 
 const byOrder = (x: { order: number }, y: { order: number }) => x.order - y.order;
 
-export const caseStudies = Object.values(
+export const caseStudies = Object.entries(
   import.meta.glob<ProjectFile>('../../content/projects/*.json', { eager: true, import: 'default' }),
 )
+  // The file name (without .json) becomes the project's id, used by the detail overlay.
+  .map(([file, p]) => ({ ...p, slug: file.split('/').pop()!.replace(/\.json$/, '') }))
   .sort(byOrder)
   .map((p) => ({
     ...p,
+    summary: p.summary || p.result,
     link: p.link || '',
     images: (p.images ?? []).map((i) => ({ src: i.image, caption: i.caption })),
   }));

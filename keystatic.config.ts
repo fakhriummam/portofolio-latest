@@ -32,7 +32,7 @@ export default config({
         title: fields.slug({ name: { label: 'Title', validation: { isRequired: true } } }),
         order: fields.integer({
           label: 'Order',
-          description: 'Lower numbers appear first. Number 1 is shown as the large featured card.',
+          description: 'Lower numbers appear first in the list.',
           defaultValue: 10,
           validation: { isRequired: true },
         }),
@@ -40,6 +40,12 @@ export default config({
           label: 'Context',
           description: 'Where it happened, e.g. "Institut Asia Malang" or "Pondok Pesantren Sabilul Huda".',
           validation: { isRequired: true },
+        }),
+        summary: fields.text({
+          label: 'Summary (one line)',
+          description:
+            'Shown in the project list. One sentence, about 120 characters. The full story goes in Problem / What I did / Result.',
+          validation: { length: { min: 1, max: 140 } },
         }),
         problem: fields.text({ label: 'Problem', multiline: true, validation: { isRequired: true } }),
         action: fields.text({ label: 'What I did', multiline: true, validation: { isRequired: true } }),

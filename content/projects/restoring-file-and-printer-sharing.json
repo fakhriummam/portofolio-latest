@@ -2,6 +2,7 @@
   "title": "Restoring file & printer sharing",
   "order": 4,
   "context": "Institut Asia Malang",
+  "summary": "Got staff printing and sharing files again by fixing Windows sharing and printer drivers.",
   "problem": "Staff could not reach shared folders or print to the shared office printer.",
   "action": "Traced the issue across network discovery, sharing permissions and printer drivers, then reconfigured the shares on the affected PCs.",
   "result": "Shared folders and printing restored for the team without replacing hardware.",

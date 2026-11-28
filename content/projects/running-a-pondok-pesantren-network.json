@@ -1,7 +1,8 @@
 {
   "title": "Running a pondok pesantren network",
-  "order": 2,
+  "order": 1,
   "context": "Pondok Pesantren Sabilul Huda",
+  "summary": "Set up and run the whole MikroTik network for a 40-person pesantren: VLANs, hotspot, four APs and remote VPN access.",
   "problem": "Forty students and staff share one internet connection across several buildings, and the network needs to stay up with no dedicated IT team.",
   "action": "Configured the whole MikroTik setup myself: RB450G as the core and RB941 as secondary, four access points, VLAN segmentation, a santri hotspot, and an OpenVPN tunnel so the router can be managed remotely. Day to day I manage users, monitor traffic and handle outages.",
   "result": "A segmented, stable network that the pesantren relies on daily, which I can manage even when I am not on site.",

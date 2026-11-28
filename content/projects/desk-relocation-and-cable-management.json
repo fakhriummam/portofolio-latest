@@ -2,6 +2,7 @@
   "title": "Desk relocation & cable management",
   "order": 3,
   "context": "Institut Asia Malang",
+  "summary": "Set up workstations from an empty desk: crimped, routed and tested every LAN cable.",
   "problem": "When lecturers move desks or rooms, their PCs lose network access and cables end up loose and messy.",
   "action": "Set up workstations from an empty desk, such as a four-PC dual-monitor station: measure, crimp and terminate new RJ45 cables, route them neatly along the desk and floor, and test every connection with a LAN tester.",
   "result": "Lecturers are back online the same day with clean and safe cabling.",
