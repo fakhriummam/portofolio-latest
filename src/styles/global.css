@@ -95,6 +95,18 @@
   opacity: 1;
   transform: none;
 }
+/* Terminal contact form (Contact.astro) */
+@utility term-field {
+  @apply flex flex-col gap-2 sm:flex-row sm:items-baseline sm:gap-3;
+}
+@utility term-label {
+  @apply shrink-0 text-term-text sm:w-24;
+}
+@utility term-input {
+  @apply w-full border-0 border-b border-term-line bg-transparent px-0 py-1.5 font-mono text-[0.9rem] text-term-text outline-none transition-colors placeholder:text-term-dim/60 focus:border-term-green;
+  caret-color: var(--color-term-green);
+}
+
 /* Blinking terminal cursor */
 .cursor {
   display: inline-block;
@@ -109,6 +121,19 @@
   50% {
     opacity: 0;
   }
+}
+
+/* Floating "back to top" terminal (Footer.astro) */
+html:not(.no-js) .to-top {
+  opacity: 0;
+  transform: translateY(18px);
+  pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), border-color 0.2s;
+}
+html:not(.no-js) .to-top.is-shown {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
 }
 
 /* Project detail overlay (<dialog> in CaseStudies.astro) */

@@ -66,12 +66,24 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
                 <span class="mt-1 block text-sm leading-relaxed text-ink/70 sm:text-[0.95rem]">{c.summary}</span>
               </span>
 
-              <span class="hidden shrink-0 items-center gap-2 font-mono text-[0.8rem] text-accent md:flex">
-                open
-                <span aria-hidden="true" class="transition-transform group-hover:translate-x-1">→</span>
+              <!--
+                Terminal-style "open" chip: "$ cat 02.md" (the overlay shows that
+                project's file). Light by default, turns into a dark terminal
+                with a blinking cursor when the row is hovered or focused.
+              -->
+              <span
+                aria-hidden="true"
+                class="hidden shrink-0 items-center gap-1.5 rounded-md border border-line bg-paper px-3 py-1.5 font-mono text-[0.78rem] text-ink/75 transition-colors group-hover:border-term-line group-hover:bg-term group-hover:text-term-text group-focus-visible:border-term-line group-focus-visible:bg-term group-focus-visible:text-term-text md:inline-flex"
+              >
+                <span class="text-accent group-hover:text-term-green group-focus-visible:text-term-green">$</span>
+                cat {num(i)}.md
+                <span class="cursor h-[0.95em] w-[0.45em] text-term-green opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100"></span>
               </span>
-              <span aria-hidden="true" class="shrink-0 text-accent transition-transform group-hover:translate-x-1 md:hidden">
-                →
+              <span
+                aria-hidden="true"
+                class="inline-flex shrink-0 items-center rounded-md border border-line bg-paper px-2 py-1 font-mono text-[0.75rem] text-accent transition-colors group-hover:border-term-line group-hover:bg-term group-hover:text-term-green md:hidden"
+              >
+                &gt;_
               </span>
             </button>
           </li>

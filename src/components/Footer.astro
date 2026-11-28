@@ -4,8 +4,44 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="border-t border-line">
-  <div class="container-x flex flex-col gap-3 py-10 font-mono text-[0.8rem] text-muted sm:flex-row sm:items-center sm:justify-between">
+  <!-- Extra bottom padding on phones so the floating "cd /top" window never covers this line. -->
+  <div class="container-x pb-32 pt-10 font-mono text-[0.8rem] text-muted sm:py-10">
     <p>© {year} {profile.name}<span class="mx-2 text-line">·</span><span class="text-accent">●</span> all systems operational</p>
-    <a href="#top" class="link-u">Back to top ↑</a>
   </div>
 </footer>
+
+<!--
+  Back to top: a small floating terminal window that slides in once the
+  visitor is near the bottom of the page. Without JavaScript it simply
+  stays visible.
+-->
+<a
+  id="to-top"
+  href="#top"
+  aria-label="Back to top"
+  class="to-top group fixed bottom-5 right-5 z-30 w-[11.5rem] overflow-hidden rounded-lg border border-term-line bg-term font-mono text-term-text shadow-[0_18px_40px_-16px_rgb(28_27_25/0.6)] transition-colors hover:border-term-green/60 sm:bottom-8 sm:right-8"
+>
+  <span class="term-bar border-term-line text-term-dim">
+    <span class="h-2 w-2 rounded-full bg-[#e0685e]"></span>
+    <span class="h-2 w-2 rounded-full bg-[#e2b14f]"></span>
+    <span class="h-2 w-2 rounded-full bg-[#6fbf73]"></span>
+    <span class="ml-1 truncate">~/footer</span>
+  </span>
+  <span class="flex items-center gap-2 px-4 py-3 text-[0.85rem]">
+    <span class="text-term-green">$</span>
+    <span class="transition-colors group-hover:text-term-green">cd /top</span>
+    <span class="ml-auto text-term-green transition-transform group-hover:-translate-y-0.5" aria-hidden="true">↑</span>
+  </span>
+</a>
+
+<script>
+  const btn = document.getElementById('to-top')!;
+  // Show it when the visitor is within ~1.2 screens of the end of the page.
+  const update = () => {
+    const remaining = document.documentElement.scrollHeight - (window.scrollY + window.innerHeight);
+    btn.classList.toggle('is-shown', remaining < window.innerHeight * 1.2 && window.scrollY > window.innerHeight);
+  };
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+</script>

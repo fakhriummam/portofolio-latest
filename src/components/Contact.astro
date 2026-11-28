@@ -47,44 +47,203 @@ const channels = [
       </dl>
     </div>
 
+    <!--
+      The form is a terminal window: each field is a prompt line, the submit
+      button runs "./send_message.sh", and the result prints like console output.
+    -->
     <form
       id="contact-form"
-      class="reveal space-y-6 md:col-span-6 md:col-start-7"
+      class="reveal overflow-hidden rounded-lg border border-term-line bg-term font-mono text-term-text shadow-[0_24px_60px_-28px_rgb(28_27_25/0.55)] md:col-span-6 md:col-start-7"
       action={action}
       method="POST"
       data-formspree={profile.formspreeId ? 'true' : 'false'}
       data-email={email}
     >
-      <div class="grid gap-6 sm:grid-cols-2">
-        <label class="block">
-          <span class="font-mono text-[0.8rem] text-muted">name:</span>
-          <input name="name" required autocomplete="name" class="mt-2 w-full border-0 border-b border-line bg-transparent px-0 py-2 outline-none transition-colors focus:border-accent" />
+      <div class="term-bar border-term-line text-term-dim">
+        <span class="h-2.5 w-2.5 rounded-full bg-[#e0685e]"></span>
+        <span class="h-2.5 w-2.5 rounded-full bg-[#e2b14f]"></span>
+        <span class="h-2.5 w-2.5 rounded-full bg-[#6fbf73]"></span>
+        <span class="ml-2 truncate">fakhri@noc: ~/contact — new_message</span>
+      </div>
+
+      <!-- Input view: hidden after sending and replaced by the console output below. -->
+      <div id="form-fields" class="space-y-5 p-5 text-[0.85rem] sm:p-7">
+        <p class="text-term-dim"># Leave a message and I will reply by email.</p>
+
+        <label class="term-field">
+          <span class="term-label"><span class="text-term-green">$</span> name<span class="text-term-dim">:</span></span>
+          <input name="name" required autocomplete="name" placeholder="your name" class="term-input" />
+        </label>
+        <label class="term-field">
+          <span class="term-label"><span class="text-term-green">$</span> email<span class="text-term-dim">:</span></span>
+          <input type="email" name="email" required autocomplete="email" placeholder="you@company.com" class="term-input" />
+        </label>
+        <label class="term-field">
+          <span class="term-label"><span class="text-term-green">$</span> company<span class="text-term-dim">:</span></span>
+          <input name="company" autocomplete="organization" placeholder="optional" class="term-input" />
         </label>
         <label class="block">
-          <span class="font-mono text-[0.8rem] text-muted">email:</span>
-          <input type="email" name="email" required autocomplete="email" class="mt-2 w-full border-0 border-b border-line bg-transparent px-0 py-2 outline-none transition-colors focus:border-accent" />
+          <span class="term-label"><span class="text-term-green">$</span> message<span class="text-term-dim">:</span></span>
+          <textarea
+            name="message"
+            rows="5"
+            required
+            placeholder="type your message…"
+            class="mt-3 block w-full resize-y rounded-sm border border-term-line bg-term-2/70 p-3 font-mono text-[0.9rem] leading-relaxed text-term-text caret-term-green outline-none transition-colors placeholder:text-term-dim/60 focus:border-term-green"
+          ></textarea>
         </label>
+        <input type="text" name="_gotcha" class="hidden" tabindex="-1" autocomplete="off" />
+
+        <div class="flex flex-col gap-4 border-t border-term-line pt-5 sm:flex-row sm:items-center">
+          <button
+            type="submit"
+            class="group inline-flex items-center justify-center gap-2 rounded-md bg-term-green px-6 py-3 text-[0.9rem] font-semibold text-term transition-colors hover:bg-paper"
+          >
+            <span aria-hidden="true">$</span> ./send_message.sh
+            <span class="cursor h-[1em] w-[0.45em] text-term" aria-hidden="true"></span>
+          </button>
+        </div>
       </div>
-      <label class="block">
-        <span class="font-mono text-[0.8rem] text-muted">company / organisation:</span>
-        <input name="company" autocomplete="organization" class="mt-2 w-full border-0 border-b border-line bg-transparent px-0 py-2 outline-none transition-colors focus:border-accent" />
-      </label>
-      <label class="block">
-        <span class="font-mono text-[0.8rem] text-muted">message:</span>
-        <textarea name="message" rows="5" required class="mt-2 w-full resize-y border-0 border-b border-line bg-transparent px-0 py-2 outline-none transition-colors focus:border-accent"></textarea>
-      </label>
-      <input type="text" name="_gotcha" class="hidden" tabindex="-1" autocomplete="off" />
-      <div class="flex flex-wrap items-center gap-4">
-        <button type="submit" class="btn-primary">Send message <span aria-hidden="true">→</span></button>
-        <p id="form-status" class="text-sm text-muted" role="status" aria-live="polite"></p>
+
+      <!-- Output view: the "command" runs and prints its result line by line. -->
+      <div id="form-output" hidden tabindex="-1" class="p-5 text-[0.85rem] leading-relaxed outline-none sm:p-7">
+        <div id="form-log" class="space-y-1.5" aria-hidden="true"></div>
+        <div id="form-actions" hidden class="mt-7 flex flex-wrap gap-3 border-t border-term-line pt-5"></div>
       </div>
+      <p id="form-announce" class="sr-only" role="status" aria-live="polite"></p>
     </form>
   </div>
 </section>
 
 <script>
   const form = document.getElementById('contact-form') as HTMLFormElement;
-  const status = document.getElementById('form-status')!;
+  const fields = document.getElementById('form-fields')!;
+  const output = document.getElementById('form-output')!;
+  const log = document.getElementById('form-log')!;
+  const actions = document.getElementById('form-actions')!;
+  const announce = document.getElementById('form-announce')!;
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const wait = (ms: number) => new Promise((r) => setTimeout(r, reduceMotion ? 0 : ms));
+
+  // A blinking cursor that always sits at the end of the newest line.
+  const cursor = document.createElement('span');
+  cursor.className = 'cursor h-[1em] w-[0.5em] text-term-green';
+
+  const newLine = (cls = '') => {
+    const p = document.createElement('p');
+    p.className = `whitespace-pre-wrap break-words ${cls}`;
+    p.appendChild(cursor);
+    log.appendChild(p);
+    return p;
+  };
+  // Add text before the cursor. textContent keeps visitor input as plain text.
+  const put = (line: HTMLElement, text: string, cls = '') => {
+    const s = document.createElement('span');
+    if (cls) s.className = cls;
+    s.textContent = text;
+    line.insertBefore(s, cursor);
+    return s;
+  };
+  const typeInto = async (el: HTMLElement, text: string, speed = 32) => {
+    if (reduceMotion) return void (el.textContent += text);
+    for (const ch of text) {
+      el.textContent += ch;
+      await wait(speed);
+    }
+  };
+  const actionButton = (label: string, onClick: () => void, primary = false) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = primary
+      ? 'rounded-md bg-term-green px-5 py-2.5 text-[0.85rem] font-semibold text-term transition-colors hover:bg-paper'
+      : 'rounded-md border border-term-line px-5 py-2.5 text-[0.85rem] text-term-text transition-colors hover:border-term-green hover:text-term-green';
+    b.textContent = label;
+    b.addEventListener('click', onClick);
+    actions.appendChild(b);
+    return b;
+  };
+  const showForm = () => {
+    output.hidden = true;
+    fields.hidden = false;
+    form.querySelector<HTMLInputElement>('input[name="name"]')?.focus();
+  };
+
+  // Plays the "terminal run" while the real request is sent to Formspree.
+  const runSend = async (data: FormData) => {
+    const name = String(data.get('name') ?? '').trim();
+    const email = String(data.get('email') ?? '').trim();
+    const bytes = new Blob([String(data.get('message') ?? '')]).size;
+
+    // Swap the inputs for the console, keeping the window the same height.
+    output.style.minHeight = `${fields.offsetHeight}px`;
+    fields.hidden = true;
+    output.hidden = false;
+    log.replaceChildren();
+    actions.replaceChildren();
+    actions.hidden = true;
+    output.focus({ preventScroll: true });
+
+    // Start the real request straight away; the animation runs alongside it.
+    const request = fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
+      .then((r) => r.ok)
+      .catch(() => false);
+
+    let line = newLine('text-term-text');
+    put(line, '$ ', 'text-term-green');
+    await typeInto(put(line, ''), './send_message.sh');
+    await wait(350);
+
+    line = newLine('text-term-dim');
+    put(line, `> from: ${name} <${email}>`);
+    await wait(260);
+    line = newLine('text-term-dim');
+    put(line, `> payload: ${bytes} bytes`);
+    await wait(260);
+
+    // Animated dots until the request finishes (at least ~1s so it reads well).
+    line = newLine('text-term-dim');
+    put(line, '> sending via formspree.io ');
+    const dots = put(line, '');
+    const timer = setInterval(() => (dots.textContent = dots.textContent!.length >= 3 ? '' : dots.textContent + '.'), 260);
+    const [ok] = await Promise.all([request, wait(1100)]);
+    clearInterval(timer);
+    dots.textContent = '...';
+    put(line, ok ? ' [ok]' : ' [failed]', ok ? 'text-term-green' : 'text-[#e0685e]');
+    await wait(300);
+
+    if (ok) {
+      form.reset();
+      line = newLine('text-term-green');
+      put(line, '✓ 200 OK, message delivered.');
+      await wait(250);
+      line = newLine('text-term-text');
+      await typeInto(put(line, ''), `Thanks, ${name.split(' ')[0] || 'there'}! I will reply to ${email} soon.`, 18);
+      announce.textContent = 'Message sent. Thank you, I will reply by email soon.';
+    } else {
+      line = newLine('text-[#e0685e]');
+      put(line, '✗ could not send the message.');
+      await wait(250);
+      line = newLine('text-term-text');
+      await typeInto(put(line, ''), `Your text is kept. Try again, or email me at ${form.dataset.email}.`, 18);
+      announce.textContent = 'Sending failed. Your message is kept; try again or email me directly.';
+    }
+
+    await wait(300);
+    line = newLine('text-term-text');
+    put(line, '$ ', 'text-term-green');
+
+    actions.hidden = false;
+    if (ok) {
+      actionButton('$ new_message', () => {
+        output.style.minHeight = '';
+        showForm();
+      }, true).focus({ preventScroll: true });
+    } else {
+      actionButton('$ retry', () => runSend(new FormData(form)), true).focus({ preventScroll: true });
+      actionButton('$ edit_message', showForm);
+    }
+  };
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -100,14 +259,6 @@ const channels = [
       return;
     }
 
-    status.textContent = 'Sending…';
-    try {
-      const res = await fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
-      if (!res.ok) throw new Error();
-      form.reset();
-      status.textContent = 'Thank you, your message has been sent.';
-    } catch {
-      status.textContent = 'Something went wrong. Please email me directly.';
-    }
+    runSend(data);
   });
 </script>
