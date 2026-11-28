@@ -3,33 +3,32 @@ import { profile } from '../data/profile';
 
 // Lines shown in the little terminal window under the photo.
 const facts = [
-  ['role', profile.role],
   ['location', profile.location],
   ['focus', 'MikroTik · LAN · end-user support'],
 ];
 ---
 
-<section id="top" class="container-x pb-20 pt-32 sm:pb-28 sm:pt-40">
+<section id="top" class="container-x pb-16 pt-24 sm:pb-20 sm:pt-28">
   <div class="grid items-center gap-12 md:grid-cols-12">
     <div class="md:col-span-7">
       <p class="reveal mono text-muted">$ whoami</p>
-      <h1 class="reveal display mt-3 text-[2.5rem] leading-[1.02] sm:text-6xl md:text-[4.2rem]">
+      <h1 class="reveal display mt-3 text-[2.5rem] leading-[1.02] sm:text-6xl md:text-[3.8rem]">
         {profile.name}
       </h1>
 
-      <p class="reveal mt-5 font-mono text-[0.95rem] text-muted sm:text-base">
+      <p class="reveal mt-4 font-mono text-[0.95rem] text-muted sm:text-base">
         {profile.role} <span class="text-line">/</span> {profile.location}
       </p>
 
-      <p class="reveal mt-10 max-w-xl text-2xl font-medium leading-snug tracking-tight text-accent sm:text-[1.7rem]">
+      <p class="reveal mt-7 max-w-xl text-2xl font-medium leading-snug tracking-tight text-accent sm:text-[1.7rem]">
         {profile.tagline}
       </p>
 
-      <p class="reveal mt-5 max-w-xl leading-relaxed text-ink/80">
+      <p class="reveal mt-4 max-w-xl leading-relaxed text-ink/80">
         {profile.intro}
       </p>
 
-      <div class="reveal mt-10 flex flex-wrap gap-3">
+      <div class="reveal mt-8 flex flex-wrap gap-3">
         <a href="#contact" class="btn-primary">Get in touch <span aria-hidden="true">→</span></a>
         <a href="#work" class="btn-ghost">View my work</a>
         {
@@ -44,7 +43,7 @@ const facts = [
 
     <!-- Terminal-style card: photo plus a few "system info" lines -->
     <div class="reveal md:col-span-5">
-      <div class="mx-auto w-full max-w-[340px] overflow-hidden rounded-lg border border-term-line bg-term text-term-text shadow-[0_24px_60px_-28px_rgb(28_27_25/0.55)] md:ml-auto">
+      <div class="mx-auto w-full max-w-[270px] overflow-hidden rounded-lg border border-term-line bg-term text-term-text shadow-[0_24px_60px_-28px_rgb(28_27_25/0.55)] md:ml-auto">
         <div class="term-bar border-term-line text-term-dim">
           <span class="h-2.5 w-2.5 rounded-full bg-[#e0685e]"></span>
           <span class="h-2.5 w-2.5 rounded-full bg-[#e2b14f]"></span>
