@@ -1,7 +1,12 @@
 @import 'tailwindcss';
-@import '@fontsource-variable/fraunces';
 @import '@fontsource-variable/inter';
+@import '@fontsource-variable/jetbrains-mono';
 
+/*
+  "Clean terminal" theme: the same calm paper/ink/teal palette, with a
+  monospace font for labels, numbers and metadata (like a NOC console)
+  and a tight sans-serif for headings.
+*/
 @theme {
   --color-paper: #faf8f4;
   --color-paper-2: #f3efe7;
@@ -10,9 +15,16 @@
   --color-line: #e6e1d8;
   --color-accent: #1f5f5b;
   --color-accent-soft: #e3ece9;
+  /* Terminal window */
+  --color-term: #17191a;
+  --color-term-2: #212426;
+  --color-term-line: #2e3235;
+  --color-term-text: #d9dcd6;
+  --color-term-dim: #8a918c;
+  --color-term-green: #7cc4a4;
 
-  --font-serif: 'Fraunces Variable', ui-serif, Georgia, serif;
   --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'Cascadia Mono', Consolas, monospace;
 }
 
 @layer base {
@@ -43,17 +55,24 @@
   @apply border-t border-line py-20 sm:py-28;
 }
 @utility display {
-  @apply font-serif tracking-tight;
-  font-variation-settings: 'opsz' 144, 'SOFT' 50;
+  @apply font-sans font-semibold tracking-[-0.025em];
+}
+/* Small monospace label, e.g. "$ cd ~/work" or "period: 2025 — now" */
+@utility mono {
+  @apply font-mono text-[0.8rem] tracking-normal;
+}
+/* Mac-style window bar used on terminal cards */
+@utility term-bar {
+  @apply flex items-center gap-2 border-b px-4 py-2.5 font-mono text-[0.72rem];
 }
 @utility link-u {
   @apply underline decoration-line decoration-1 underline-offset-4 transition-colors hover:decoration-accent hover:text-accent;
 }
 @utility tag {
-  @apply inline-flex items-center rounded-full border border-line bg-paper px-3 py-1 text-sm text-ink/80;
+  @apply inline-flex items-center rounded-sm border border-line bg-paper px-2.5 py-1 font-mono text-[0.78rem] text-ink/80;
 }
 @utility btn {
-  @apply inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-colors;
+  @apply inline-flex items-center gap-2 rounded-md px-5 py-2.5 font-mono text-[0.85rem] font-medium transition-colors;
 }
 @utility btn-primary {
   @apply btn bg-ink text-paper hover:bg-accent;
@@ -76,6 +95,22 @@
   opacity: 1;
   transform: none;
 }
+/* Blinking terminal cursor */
+.cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.05em;
+  margin-left: 0.15em;
+  vertical-align: -0.15em;
+  background: currentColor;
+  animation: blink 1.1s steps(1) infinite;
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
 /* Project detail overlay (<dialog> in CaseStudies.astro) */
 .project-dialog {
   margin: auto;
@@ -127,7 +162,8 @@ html:has(.project-dialog[open]) {
     scroll-behavior: auto;
   }
   .project-dialog[open],
-  .project-dialog[open]::backdrop {
+  .project-dialog[open]::backdrop,
+  .cursor {
     animation: none;
   }
   .reveal {

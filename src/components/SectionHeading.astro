@@ -3,16 +3,20 @@ interface Props {
   index: string;
   label: string;
   title: string;
+  /** Use on dark sections. */
+  dark?: boolean;
 }
-const { index, label, title } = Astro.props;
+const { index, label, title, dark = false } = Astro.props;
+// "Selected work" -> "selected-work", shown as a terminal path.
+const dir = label.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 ---
 
 <header class="reveal mb-12 grid gap-4 sm:mb-16 md:grid-cols-12">
-  <p class="text-xs font-medium uppercase tracking-[0.18em] text-muted md:col-span-3 md:pt-3">
-    <span class="text-accent">{index}</span>
-    <span class="mx-2 text-line">—</span>{label}
+  <p class:list={['mono md:col-span-3 md:pt-3', dark ? 'text-paper/50' : 'text-muted']}>
+    <span class={dark ? 'text-term-green' : 'text-accent'}>{index}</span>
+    <span class="mx-1.5 opacity-40">/</span>~/{dir}
   </p>
-  <h2 class="display text-3xl leading-[1.1] sm:text-4xl md:col-span-9 md:text-5xl">
+  <h2 class="display text-3xl leading-[1.1] sm:text-4xl md:col-span-9 md:text-[2.75rem]">
     {title}
   </h2>
 </header>

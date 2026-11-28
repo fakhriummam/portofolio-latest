@@ -51,7 +51,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
                     class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                   />
                 ) : (
-                  <span class="display flex h-full w-full items-center justify-center text-xl text-accent/70">
+                  <span class="flex h-full w-full items-center justify-center font-mono text-lg text-accent/70">
                     {num(i)}
                   </span>
                 )}
@@ -59,15 +59,15 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 
               <span class="min-w-0 flex-1">
                 <span class="flex items-baseline gap-3">
-                  <span class="display text-sm text-accent">{num(i)}</span>
-                  <span class="truncate text-[0.7rem] uppercase tracking-[0.16em] text-muted">{c.context}</span>
+                  <span class="font-mono text-[0.78rem] text-accent">{num(i)}</span>
+                  <span class="truncate font-mono text-[0.72rem] text-muted">{c.context}</span>
                 </span>
                 <span class="display mt-1 block text-xl leading-snug sm:text-2xl">{c.title}</span>
                 <span class="mt-1 block text-sm leading-relaxed text-ink/70 sm:text-[0.95rem]">{c.summary}</span>
               </span>
 
-              <span class="hidden shrink-0 items-center gap-2 text-sm text-accent md:flex">
-                Details
+              <span class="hidden shrink-0 items-center gap-2 font-mono text-[0.8rem] text-accent md:flex">
+                open
                 <span aria-hidden="true" class="transition-transform group-hover:translate-x-1">→</span>
               </span>
               <span aria-hidden="true" class="shrink-0 text-accent transition-transform group-hover:translate-x-1 md:hidden">
@@ -87,11 +87,17 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
         aria-labelledby={`project-${c.slug}-title`}
         class="project-dialog w-[calc(100%-1.5rem)] max-w-3xl max-h-[92vh] overflow-y-auto rounded-sm shadow-2xl"
       >
+        <div class="term-bar sticky top-0 z-10 border-line bg-paper-2 text-muted">
+          <span class="h-2.5 w-2.5 rounded-full bg-[#e0685e]"></span>
+          <span class="h-2.5 w-2.5 rounded-full bg-[#e2b14f]"></span>
+          <span class="h-2.5 w-2.5 rounded-full bg-[#6fbf73]"></span>
+          <span class="ml-2 truncate">~/work/{c.slug}.md</span>
+        </div>
         <div class="p-6 sm:p-10">
           <div class="flex items-start justify-between gap-6">
             <div>
-              <p class="flex items-baseline gap-3 text-xs uppercase tracking-[0.16em] text-muted">
-                <span class="display text-sm normal-case tracking-normal text-accent">{num(i)}</span>
+              <p class="flex items-baseline gap-3 font-mono text-[0.75rem] text-muted">
+                <span class="text-accent">{num(i)}</span>
                 {c.context}
               </p>
               <h3 id={`project-${c.slug}-title`} class="display mt-3 text-2xl leading-tight sm:text-3xl">
@@ -134,7 +140,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
                       ]}
                     />
                   </a>
-                  <figcaption class="mt-2 text-xs leading-snug text-muted">{img.caption}</figcaption>
+                  <figcaption class="mt-2 font-mono text-[0.7rem] leading-snug text-muted">{img.caption}</figcaption>
                 </figure>
               ))}
             </div>
@@ -142,15 +148,15 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 
           <dl class="mt-8 space-y-5 text-[0.95rem] leading-relaxed">
             <div>
-              <dt class="text-xs font-medium uppercase tracking-wider text-muted">Problem</dt>
+              <dt class="font-mono text-[0.78rem] text-muted"><span class="text-accent">#</span> problem</dt>
               <dd class="mt-1 text-ink/80">{c.problem}</dd>
             </div>
             <div>
-              <dt class="text-xs font-medium uppercase tracking-wider text-muted">What I did</dt>
+              <dt class="font-mono text-[0.78rem] text-muted"><span class="text-accent">#</span> what_i_did</dt>
               <dd class="mt-1 text-ink/80">{c.action}</dd>
             </div>
             <div class="border-l-2 border-accent pl-4">
-              <dt class="text-xs font-medium uppercase tracking-wider text-accent">Result</dt>
+              <dt class="font-mono text-[0.78rem] text-accent"># result</dt>
               <dd class="mt-1 text-ink">{c.result}</dd>
             </div>
           </dl>

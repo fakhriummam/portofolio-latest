@@ -11,10 +11,10 @@ import { skills, tools, learning } from '../data/profile';
       {
         skills.map((g) => (
           <div class="reveal border-t border-ink pt-6">
-            <h3 class="display text-xl">{g.group}</h3>
+            <h3 class="font-mono text-[0.95rem] font-medium"><span class="text-accent"># </span>{g.group.toLowerCase()}</h3>
             <ul class="mt-5 space-y-3 text-ink/80">
               {g.items.map((s) => (
-                <li class="flex items-center justify-between border-b border-line pb-3">{s}</li>
+                <li class="flex items-start gap-3 border-b border-line pb-3"><span class="mt-[0.2em] font-mono text-[0.75rem] text-accent" aria-hidden="true">[✓]</span><span>{s}</span></li>
               ))}
             </ul>
           </div>
@@ -24,18 +24,18 @@ import { skills, tools, learning } from '../data/profile';
 
     <div class="mt-16 grid gap-10 md:grid-cols-12">
       <div class="reveal md:col-span-6">
-        <p class="text-xs font-medium uppercase tracking-[0.16em] text-muted">Tools I use</p>
+        <p class="mono text-muted">$ ls ~/tools</p>
         <ul class="mt-4 flex flex-wrap gap-2">
           {tools.map((t) => <li class="tag">{t}</li>)}
         </ul>
       </div>
       <div class="reveal md:col-span-6">
-        <p class="text-xs font-medium uppercase tracking-[0.16em] text-muted">Currently learning</p>
+        <p class="mono text-muted">$ cat learning.log</p>
         <ul class="mt-4 space-y-2">
           {
             learning.map((l) => (
               <li class="flex gap-3 text-ink/80">
-                <span class="text-accent">→</span>
+                <span class="font-mono text-accent">→</span>
                 {l}
               </li>
             ))
