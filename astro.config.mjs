@@ -15,6 +15,13 @@ export default defineConfig({
   adapter: vercel(),
   integrations: [react(), keystatic()],
 
+  // Trust Vercel's forwarded host header for this domain. Without it the server
+  // sees itself as "localhost", so the Keystatic GitHub login sends GitHub a
+  // wrong callback URL (https://localhost/...) and the login is refused.
+  security: {
+    allowedDomains: [{ hostname: 'fakhriummam.vercel.app', protocol: 'https' }],
+  },
+
   vite: {
     plugins: [tailwindcss()],
     // @keystatic/astro imports Astro's virtual "astro:env/server" module, which
